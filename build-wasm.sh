@@ -13,6 +13,8 @@ DEFINES="-DAP_NO_SCHEMA"
 rm -Rf --one-file-system "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
+echo "Building ..."
+
 # debug build
 if [[ "$1" == "debug" ]] || [[ "$1" == "stat" ]]; then
   em++ --bind $SRC "src/games/$GAME_C" $INCLUDE_DIRS -DGAME_H="\"games/$GAME_H\"" $DEFINES $LIBS --shell-file ui/shell.html -o "$BUILD_DIR/$NAME.html" -fexceptions -Og -flto -sASSERTIONS -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=1024 || exit 1
@@ -22,6 +24,7 @@ fi
 if [[ "$1" != "debug" ]]; then
   em++ --bind $SRC "src/games/$GAME_C" $INCLUDE_DIRS -DGAME_H="\"games/$GAME_H\"" $DEFINES $LIBS --shell-file ui/shell.html -o "$BUILD_DIR/$NAME.min.html" -fexceptions -DAP_NO_SCHEMA -Oz -flto -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=1024MB || exit 1
   # pre-compress to be served through .htaccess overrides
+  echo "Pre-compressing files ..."
   brotli -k -q 11 "$BUILD_DIR/$NAME.min.wasm" "$BUILD_DIR/$NAME.min.js" "$BUILD_DIR/$NAME.min.html"
   gzip -k -9 "$BUILD_DIR/$NAME.min.wasm" "$BUILD_DIR/$NAME.min.js" "$BUILD_DIR/$NAME.min.html"
 fi
@@ -37,6 +40,7 @@ fi
 
 # remove debug build if we did not specify debug, copy, rename and package everything
 if [[ "$1" != "debug" ]]; then
+  echo "Packaging files ..."
   rm -f "$BUILD_DIR/$NAME.html" "$BUILD_DIR/$NAME.js" "build/$NAME.wasm"
   mv "$BUILD_DIR/$NAME.min.html" "$BUILD_DIR/index.html" # this may change with version selection in the future
   cp "util/htaccess" "$BUILD_DIR/.htaccess" # copy .htaccess that automagically serves pre-compressed wasm, js and css

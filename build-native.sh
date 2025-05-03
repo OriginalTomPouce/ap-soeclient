@@ -13,13 +13,14 @@ CPP="g++"
 rm -Rf --one-file-system "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
+echo "Building ..."
 if [[ "$1" == "debug" ]]; then
   # debug build
   $CPP $SRC "src/games/$GAME_C" $INCLUDE_DIRS $DEFINES -DGAME_H="\"games/$GAME_H\"" $LIBS -o "$BUILD_DIR/$NAME" -g -fexceptions || exit 1
 else
   # release build
   $CPP $SRC "src/games/$GAME_C" $INCLUDE_DIRS $DEFINES -DGAME_H="\"games/$GAME_H\"" $LIBS -o "$BUILD_DIR/$NAME" -fexceptions -Os -flto || exit 1
+  echo "Copying other files ..."
   cp LICENSE "$BUILD_DIR/"
   [ -f "cacert.pem" ] && cp "cacert.pem" "$BUILD_DIR/"
 fi
-
