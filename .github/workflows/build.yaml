@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -y -qq
-          sudo apt-get install coreutils build-essential libssl-dev libcrypto-dev zlib1g-dev
+          sudo apt-get install coreutils build-essential libssl-dev zlib1g-dev # libcrypto-dev
 
       - name: Build
         run: |
