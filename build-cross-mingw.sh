@@ -24,7 +24,9 @@ else
   $STRIP "$BUILD_DIR/$NAME.exe"
   echo "Copying other files ..."
   cp LICENSE "$BUILD_DIR/"
-  [ -f "cacert.pem" ] && cp "cacert.pem" "$BUILD_DIR/"
+  if [ -f "cacert.pem" ]; then
+    cp "cacert.pem" "$BUILD_DIR/"
+  fi
   OLD_CWD=`pwd`
   # remove unused files
   cd "$BUILD_DIR"

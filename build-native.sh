@@ -22,5 +22,7 @@ else
   $CPP $SRC "src/games/$GAME_C" $INCLUDE_DIRS $DEFINES -DGAME_H="\"games/$GAME_H\"" $LIBS -o "$BUILD_DIR/$NAME" -fexceptions -Os -flto || exit 1
   echo "Copying other files ..."
   cp LICENSE "$BUILD_DIR/"
-  [ -f "cacert.pem" ] && cp "cacert.pem" "$BUILD_DIR/"
+  if [ -f "cacert.pem" ]; then
+    cp "cacert.pem" "$BUILD_DIR/"
+  fi
 fi
