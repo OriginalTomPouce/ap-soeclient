@@ -20,7 +20,7 @@ fi
 
 # release build
 if [[ "$1" != "debug" ]]; then
-  em++ --bind $SRC "src/games/$GAME_C" $INCLUDE_DIRS -DGAME_H="\"games/$GAME_H\"" $DEFINES $LIBS --shell-file ui/shell.html -o "$BUILD_DIR/$NAME.min.html" -fexceptions -Oz -flto -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=1024MB || exit 1
+  em++ --bind $SRC "src/games/$GAME_C" $INCLUDE_DIRS -DGAME_H="\"games/$GAME_H\"" $DEFINES $LIBS --shell-file ui/shell.html -o "$BUILD_DIR/$NAME.min.html" -fexceptions -DAP_NO_SCHEMA -Oz -flto -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=1024MB || exit 1
   # pre-compress to be served through .htaccess overrides
   brotli -k -q 11 "$BUILD_DIR/$NAME.min.wasm" "$BUILD_DIR/$NAME.min.js" "$BUILD_DIR/$NAME.min.html"
   gzip -k -9 "$BUILD_DIR/$NAME.min.wasm" "$BUILD_DIR/$NAME.min.js" "$BUILD_DIR/$NAME.min.html"
