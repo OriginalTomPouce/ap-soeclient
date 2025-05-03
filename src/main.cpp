@@ -71,11 +71,9 @@ decltype(USB2SNES::LEGACY_URI) constexpr USB2SNES::LEGACY_URI;
 
 #ifdef __EMSCRIPTEN__
 #define VIRTUAL_HOME_DIR "/settings"
-#define OLD_DATAPACKAGE_CACHE "/settings/datapackage.json"
 #define UUID_FILE "/settings/uuid"
 #define CERT_STORE "" // not required in a browser context
 #else
-#define OLD_DATAPACKAGE_CACHE "datapackage.json"
 #define UUID_FILE "uuid" // TODO: place in %appdata%
 #define CERT_STORE "cacert.pem"
 #endif
@@ -172,14 +170,8 @@ void connect_ap(std::string uri="")
     printf("Connecting to AP...\n");
     ap.reset(new APClient(uuid, GAME::Name, uri.empty() ? APClient::DEFAULT_URI : uri, CERT_STORE));
 
-
     // clear game's cache. read below on socket_connected_handler
     if (game) game->clear_cache();
-
-    // load DataPackage cache
-    try {
-        ap->set_data_package_from_file(OLD_DATAPACKAGE_CACHE);
-    } catch (std::exception) { /* ignore */ }
 
     // set state and callbacks
     ap_sync_queued = false;
