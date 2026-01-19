@@ -280,7 +280,6 @@ void connect_ap(std::string uri="")
             printf("%s\n", msg.c_str());
         });
     ap->set_print_json_handler([](const std::list<APClient::TextNode>& msg) {
-        if (!game || msg.find(game->get_slot()) != std::string::npos)
             printf("%s\n", ap->render_json(msg, APClient::RenderFormat::ANSI).c_str());
         });
     ap->set_bounced_handler([](const json& cmd) {
