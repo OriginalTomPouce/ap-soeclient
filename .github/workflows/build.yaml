@@ -13,6 +13,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          
+      - name: Get Emsdk
+        uses: mymindstorm/setup-emsdk@v14
 
       - name: Install dependencies
         run: |
@@ -23,7 +26,7 @@ jobs:
         run: |
           ./build-wasm.sh
 
-      - name: Store Build
+      - name: Wasm Build
         uses: actions/upload-artifact@v4
         with:
           name: soeclient_wasm-22-04_amd64
