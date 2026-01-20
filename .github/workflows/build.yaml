@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: soeclient_wasm-22-04_amd64
-          path: build/*.tar.xz
+          path: build/*.zip
           compression-level: 0
           if-no-files-found: error
 
