@@ -5,6 +5,32 @@ on:
   pull_request:
 
 jobs:
+  build-wasm:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y -qq
+          sudo apt-get install coreutils build-essential libssl-dev zlib1g-dev # libcrypto-dev
+
+      - name: Build
+        run: |
+          ./build-wasm.sh
+
+      - name: Store Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: soeclient_wasm-22-04_amd64
+          path: build/*.tar.xz
+          compression-level: 0
+          if-no-files-found: error
+
   build-ubuntu:
     runs-on: ubuntu-22.04
 
